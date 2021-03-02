@@ -8,10 +8,26 @@ import {FormBuilder, Validators} from '@angular/forms';
 })
 export class CreateCourseStep2Component implements OnInit {
   form = this.fb.group({
-    courseType: ['premium', [Validators.required]]
+    courseType: ['premium', [Validators.required]],
+    price: [null, [
+      Validators.required,
+      Validators.min(1),
+      Validators.max(9999),
+      Validators.pattern('[0-9]+')
+    ]]
   });
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.form.valueChanges
+      .subscribe(val => {
+        const priceControl = this.form.controls['price'];
+        if (val.courseType === 'free' && priceControl.enabled) {
+          priceControl.disable({ emitEvent: false });
+        } else if (val.courseType === 'premium' && priceControl.disabled) {
+          priceControl.enable({ emitEvent: false });
+        }
+      });
+  }
 }
