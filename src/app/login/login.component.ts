@@ -15,4 +15,8 @@ export class LoginComponent implements OnInit {
   login(loginForm: NgForm, submit) {
     console.log(loginForm, submit);
   }
+
+  onChange(change: any) {
+    console.log(change);
+  }
 }
