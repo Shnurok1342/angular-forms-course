@@ -18,6 +18,18 @@
     </mat-datepicker-toggle>
     <mat-datepicker #releaseDataPicker></mat-datepicker>
   </mat-form-field>
+
+  <mat-checkbox color="primary" formControlName="downloadsAllowed">
+    Downloads allowed?
+  </mat-checkbox>
+
+  <mat-form-field appearance="outline">
+    <textarea matInput
+              formControlName="longDescription"
+              placeholder="Description"
+    >
+    </textarea>
+  </mat-form-field>
 </div>
 
 <div class="form-val">
