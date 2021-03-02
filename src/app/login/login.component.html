@@ -5,9 +5,8 @@
           #loginForm="ngForm" (ngSubmit)="login(loginForm, $event)">
       <mat-form-field>
         <input matInput
-               ngModel
-               [ngModelOptions]="{ name: 'Email', standalone: true, updateOn: 'blur' }"
-               (ngModelChange)="onChange($event)"
+               name="email"
+               [(ngModel)]="val.email"
                #email="ngModel"
                required
                email
@@ -25,7 +24,7 @@
 
       <mat-form-field>
         <input matInput
-               ngModel
+               [(ngModel)]="val.password"
                #password="ngModel"
                required
                type="password"
