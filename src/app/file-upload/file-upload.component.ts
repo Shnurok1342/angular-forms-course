@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {catchError} from 'rxjs/operators';
+import {HttpClient, HttpEventType} from '@angular/common/http';
+import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
 
 @Component({
@@ -13,6 +13,7 @@ export class FileUploadComponent {
 
   fileName = '';
   fileUploadError = false;
+  uploadProgress: number;
 
   constructor(private http: HttpClient) {}
 
@@ -22,14 +23,24 @@ export class FileUploadComponent {
       this.fileName = file.name;
       const formData = new FormData();
       formData.append('thumbnail', file);
-      this.http.post('/api/thumbnail-upload', formData)
+      this.http.post(
+        '/api/thumbnail-upload',
+        formData,
+        { reportProgress: true, observe: 'events' })
         .pipe(
           catchError(error => {
             this.fileUploadError = true;
             return of(error);
+          }),
+          finalize(() => {
+            this.uploadProgress = null;
           })
         )
-        .subscribe();
+        .subscribe(e => {
+          if (e.type === HttpEventType.UploadProgress) {
+            this.uploadProgress = Math.round(100 * e.loaded / e.total);
+          }
+        });
     }
   }
 }
