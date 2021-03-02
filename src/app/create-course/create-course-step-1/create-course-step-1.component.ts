@@ -32,7 +32,8 @@ export class CreateCourseStep1Component implements OnInit {
     longDescription: ['', [
       Validators.required,
       Validators.minLength(3)
-    ]]
+    ]],
+    address: [null]
   });
 
   courseCategories$: Observable<CourseCategory[]>;
