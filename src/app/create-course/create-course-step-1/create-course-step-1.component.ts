@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
+import {courseTitleValidator} from '../../validators/course-title.validator';
+import {CoursesService} from '../../services/courses.service';
 
 @Component({
   selector: 'app-create-course-step-1',
@@ -8,13 +10,24 @@ import {FormBuilder, Validators} from '@angular/forms';
 })
 export class CreateCourseStep1Component implements OnInit {
   form = this.fb.group({
-    title: ['', [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.maxLength(60)
-    ]]
+    title: ['', {
+      validators: [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(60)
+      ],
+      asyncValidators: [courseTitleValidator(this.coursesService)],
+      updateOn: 'blur'
+    }]
   });
 
-  constructor(private fb: FormBuilder) {}
+  get courseTitle() {
+    return this.form.controls['title'];
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private coursesService: CoursesService
+  ) {}
   ngOnInit() {}
 }
