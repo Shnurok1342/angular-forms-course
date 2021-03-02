@@ -1,14 +1,15 @@
 <mat-card class="login-page">
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
-    <form class="login-form data-form" #loginForm="ngForm">
+    <form class="login-form data-form"
+          #loginForm="ngForm" (ngSubmit)="login(loginForm, $event)">
       <mat-form-field>
         <input matInput
                ngModel
                #email="ngModel"
                required
                email
-               pattern="[a-z]+"
+               pattern="[a-z@.]+"
                minlength="3"
                maxlength="20"
                type="email"
@@ -32,7 +33,10 @@
         >
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="login(loginForm)">
+      <button mat-raised-button
+              color="primary" type="submit"
+              [disabled]="!loginForm.valid"
+      >
         Login
       </button>
     </form>
