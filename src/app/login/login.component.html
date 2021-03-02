@@ -6,7 +6,7 @@
       <mat-form-field>
         <input matInput
                name="email"
-               [(ngModel)]="val.email"
+               [ngModel]="val.email"
                #email="ngModel"
                required
                email
@@ -24,18 +24,20 @@
 
       <mat-form-field>
         <input matInput
-               [(ngModel)]="val.password"
+               [ngModel]="val.password"
                #password="ngModel"
                required
+               passwordStrength
                type="password"
                name="password"
                placeholder="Password"
         >
+        <mat-error *ngIf="password.errors?.required">The password is mandatory.</mat-error>
+        <mat-error *ngIf="password.errors?.passwordStrength">Invalid password.</mat-error>
       </mat-form-field>
 
       <button mat-raised-button
               color="primary" type="submit"
-              [disabled]="!loginForm.valid"
       >
         Login
       </button>
