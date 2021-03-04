@@ -2,7 +2,14 @@ import {Component, forwardRef, Input} from '@angular/core';
 import {HttpClient, HttpEventType} from '@angular/common/http';
 import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator} from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator
+} from '@angular/forms';
 
 @Component({
   selector: 'app-file-upload',
@@ -96,14 +103,6 @@ export class FileUploadComponent implements ControlValueAccessor, Validator {
     if (this.fileUploadSuccess) {
       return null;
     }
-    const errors: ValidationErrors = {
-      requiredFileType: this.requiredFileType
-    };
-
-    if (this.fileUploadError) {
-      errors.uploadFailed = true;
-    }
-
-    return errors;
+    return this.fileUploadError ? { uploadFailed: true } : null;
   }
 }

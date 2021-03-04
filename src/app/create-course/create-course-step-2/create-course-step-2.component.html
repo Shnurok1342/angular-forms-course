@@ -4,9 +4,9 @@
     <mat-radio-button value="premium">Premium</mat-radio-button>
   </mat-radio-group>
 
-  <app-file-upload formControlName="thumbnail"
-                   requiredFileType="image/png"
-  >
+  <app-file-upload formControlName="thumbnail">
+    <ng-container *ngIf="thumbnail?.errors?.invalidFileType">Invalid file type: should be {{ thumbnail?.errors?.requiredFileTypes }}</ng-container>
+    <ng-container *ngIf="thumbnail?.errors?.uploadFailed">Something went wrong while loading file!</ng-container>
   </app-file-upload>
 
   <mat-form-field>
@@ -15,6 +15,9 @@
            type="number"
            placeholder="Price"
     >
+    <mat-error *ngIf="price.errors?.required">The password is mandatory.</mat-error>
+    <mat-error *ngIf="price.errors?.min">Price is too low!</mat-error>
+    <mat-error *ngIf="price.errors?.max">Overprice!</mat-error>
   </mat-form-field>
 
   <mat-form-field>

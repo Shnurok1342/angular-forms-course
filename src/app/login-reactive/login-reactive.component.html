@@ -2,7 +2,7 @@
   <mat-card-title>Login (Reactive)</mat-card-title>
   <mat-card-content>
 
-    <form class="login-form data-form" [formGroup]="form">
+    <div class="login-form data-form" [formGroup]="form">
       <mat-form-field>
         <input matInput formControlName="email" type="email" placeholder="Email">
         <mat-error *ngIf="email.errors?.required">The email is mandatory.</mat-error>
@@ -12,18 +12,23 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput formControlName="password" type="password" placeholder="Password">
+        <input matInput formControlName="password" type="password" placeholder="Password" autocomplete="off">
         <mat-error *ngIf="password.errors?.required">The password is mandatory.</mat-error>
+        <mat-error *ngIf="password.errors | onlyOneError: ['minlength','passwordStrength'] as error">
+          <ng-container *ngIf="error.minlength">Your email must have minimum {{ error.minlength.requiredLength }} characters.</ng-container>
+          <ng-container *ngIf="error.passwordStrength">Invalid password.</ng-container>
+        </mat-error>
       </mat-form-field>
-      <ng-container *ngIf="password.errors | onlyOneError: ['minlength','passwordStrength'] as error">
-        <div class="field-message" *ngIf="error.minlength">Your email must have minimum {{ error.minlength.requiredLength }} characters.</div>
-        <div class="field-message" *ngIf="error.passwordStrength">Invalid password.</div>
-      </ng-container>
+
+      <app-file-upload formControlName="thumbnail">
+        <ng-container *ngIf="thumbnail?.errors?.invalidFileType">Invalid file type: should be {{ thumbnail?.errors?.requiredFileTypes }}</ng-container>
+        <ng-container *ngIf="thumbnail?.errors?.uploadFailed">Something went wrong while loading file!</ng-container>
+      </app-file-upload>
 
       <button mat-raised-button color="primary" [disabled]="!form.valid">
         Login
       </button>
-    </form>
+    </div>
 
     <div class="form-val">
       {{ form.value | json }}

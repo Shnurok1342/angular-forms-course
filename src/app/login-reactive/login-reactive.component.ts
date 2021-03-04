@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {createPasswordStrengthValidator} from '../validators/password-strength.validator';
+import {createRequiredFileTypesValidator} from '../validators/required-file-types.validators';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginReactiveComponent implements OnInit {
       Validators.required,
       Validators.minLength(8),
       createPasswordStrengthValidator()
-    ]]
+    ]],
+    thumbnail: [null, [createRequiredFileTypesValidator(['jpg'])]]
   });
 
   get email() {
@@ -31,7 +33,12 @@ export class LoginReactiveComponent implements OnInit {
     return this.form.controls['password'];
   }
 
+  get thumbnail() {
+    return this.form.controls['thumbnail'];
+  }
+
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 }

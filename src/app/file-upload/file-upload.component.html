@@ -8,6 +8,17 @@
   <mat-form-field>
     <input matInput [disabled]="true" [value]="fileName">
   </mat-form-field>
+  <div class="field-message">
+    <mat-progress-bar
+      *ngIf="uploadProgress; else errorMsg"
+      class="progress-bar"
+      mode="determinate"
+      [value]="uploadProgress"
+    ></mat-progress-bar>
+    <ng-template #errorMsg>
+      <ng-content ></ng-content>
+    </ng-template>
+  </div>
   <button mat-mini-fab
           color="primary"
           class="upload-btn"
@@ -17,10 +28,3 @@
     <mat-icon>attach_file</mat-icon>
   </button>
 </div>
-
-<mat-progress-bar
-  *ngIf="uploadProgress"
-  class="progress-bar"
-  mode="determinate"
-  [value]="uploadProgress"
-></mat-progress-bar>

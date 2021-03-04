@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {createPromoRangeValidator} from '../../validators/date-range-validator';
+import {createRequiredFileTypesValidator} from '../../validators/required-file-types.validators';
 
 @Component({
   selector: 'app-create-course-step-2',
@@ -16,7 +17,7 @@ export class CreateCourseStep2Component implements OnInit {
       Validators.max(9999),
       Validators.pattern('[0-9]+')
     ]],
-    thumbnail: [null],
+    thumbnail: [null, [createRequiredFileTypesValidator(['jpg'])]],
     promoStartAt: [null],
     promoEndAt: [null]
   }, {
@@ -35,5 +36,13 @@ export class CreateCourseStep2Component implements OnInit {
           priceControl.enable({ emitEvent: false });
         }
       });
+  }
+
+  get price() {
+    return this.form.get('price');
+  }
+
+  get thumbnail() {
+    return this.form.controls['thumbnail'];
   }
 }
